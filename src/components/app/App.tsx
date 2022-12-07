@@ -1,10 +1,12 @@
 import {useEffect, useState, ChangeEvent} from 'react';
 import Collection from '../collection/Collection';
 import {Collections} from '../../types/collections';
+import {categories} from '../../const';
 
 function App() {
   const [collections, setCollections] = useState<Collections>([]);
   const [searchInputValue, setSearchInputValue] = useState<string>('');
+  const [activeCategoryId, setActiveCategoryId] = useState<number>(0);
 
   useEffect(() => {
     fetch('https://6353e24dccce2f8c02fe8dcd.mockapi.io/phot-collections')
@@ -19,11 +21,16 @@ function App() {
 
       <div className="top">
         <ul className="tags">
-          <li className="active">Все</li>
-          <li>Горы</li>
-          <li>Море</li>
-          <li>Архитектура</li>
-          <li>Города</li>
+          {
+            categories.map((category, index) => (
+              <li
+                className={activeCategoryId === index ? 'active' : ''}
+                onClick={() => setActiveCategoryId(index)}
+              >
+                {category}
+              </li>
+            ))
+          }
         </ul>
 
         <input
@@ -40,10 +47,11 @@ function App() {
             .filter((collection) => {
               return collection.name.toLowerCase().includes(searchInputValue.toLowerCase());
             })
-            .map((collection) => (
+            .map((collection, index) => (
               <Collection
                 name={collection.name}
                 images={collection.photos}
+                key={collection.name+index}
               />
             ))
         }
