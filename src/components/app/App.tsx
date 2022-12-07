@@ -8,17 +8,17 @@ function App() {
   const [searchInputValue, setSearchInputValue] = useState<string>('');
   const [activeCategoryId, setActiveCategoryId] = useState<number>(0);
   const [isLoading, setLoading] = useState<boolean>(true);
-
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   useEffect(() => {
     setLoading(true);
 
-    fetch(`https://6353e24dccce2f8c02fe8dcd.mockapi.io/phot-collections?${activeCategoryId ? `category=${activeCategoryId}` : ''}`)
+    fetch(`https://6353e24dccce2f8c02fe8dcd.mockapi.io/phot-collections?page=${currentPage}&limit=3&${activeCategoryId ? `category=${activeCategoryId}` : ''}`)
       .then((response) => response.json())
       .then((collections) => setCollections(collections))
       .catch((error) => console.warn(error))
       .finally(() => setLoading(false));
-  }, [activeCategoryId]);
+  }, [activeCategoryId, currentPage]);
 
   return (
     <div className="App">
@@ -31,7 +31,7 @@ function App() {
               <li
                 className={activeCategoryId === index ? 'active' : ''}
                 onClick={() => setActiveCategoryId(index)}
-                key={index}
+                key={category+index}
               >
                 {category}
               </li>
@@ -60,16 +60,24 @@ function App() {
                 <Collection
                   name={collection.name}
                   images={collection.photos}
-                  key={index}
+                  key={collection.name+index}
                 />
               ))
         }
       </div>
 
       <ul className="pagination">
-        <li>1</li>
-        <li className="active">2</li>
-        <li>3</li>
+        {
+          [...Array(3)].map((obj, index) => (
+            <li
+              onClick={() => setCurrentPage(index + 1)}
+              className={currentPage === index + 1 ? 'active' : ''}
+              key={index}
+            >
+              {index + 1}
+            </li>
+          ))
+        }
       </ul>
     </div>
   );
