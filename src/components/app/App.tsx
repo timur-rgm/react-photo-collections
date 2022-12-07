@@ -9,11 +9,11 @@ function App() {
   const [activeCategoryId, setActiveCategoryId] = useState<number>(0);
 
   useEffect(() => {
-    fetch('https://6353e24dccce2f8c02fe8dcd.mockapi.io/phot-collections')
+    fetch(`https://6353e24dccce2f8c02fe8dcd.mockapi.io/phot-collections?${activeCategoryId ? `category=${activeCategoryId}` : ''}`)
       .then((response) => response.json())
       .then((collections) => setCollections(collections))
       .catch((error) => console.warn(error));
-  }, [])
+  }, [activeCategoryId]);
 
   return (
     <div className="App">
@@ -26,6 +26,7 @@ function App() {
               <li
                 className={activeCategoryId === index ? 'active' : ''}
                 onClick={() => setActiveCategoryId(index)}
+                key={index}
               >
                 {category}
               </li>
@@ -51,7 +52,7 @@ function App() {
               <Collection
                 name={collection.name}
                 images={collection.photos}
-                key={collection.name+index}
+                key={index}
               />
             ))
         }
