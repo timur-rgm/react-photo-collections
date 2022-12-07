@@ -1,9 +1,10 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useState, ChangeEvent} from 'react';
 import Collection from '../collection/Collection';
 import {Collections} from '../../types/collections';
 
 function App() {
   const [collections, setCollections] = useState<Collections>([]);
+  const [searchInputValue, setSearchInputValue] = useState<string>('');
 
   useEffect(() => {
     fetch('https://6353e24dccce2f8c02fe8dcd.mockapi.io/phot-collections')
@@ -11,6 +12,8 @@ function App() {
       .then((collections) => setCollections(collections))
       .catch((error) => console.warn(error));
   }, [])
+
+  console.log(searchInputValue)
 
   return (
     <div className="App">
@@ -24,7 +27,13 @@ function App() {
           <li>Архитектура</li>
           <li>Города</li>
         </ul>
-        <input className="search-input" placeholder="Поиск по названию" />
+
+        <input
+          value={searchInputValue}
+          onChange={(evt: ChangeEvent<HTMLInputElement>) => setSearchInputValue(evt.target.value)}
+          className="search-input"
+          placeholder="Поиск по названию"
+        />
       </div>
 
       <div className="content">
@@ -37,7 +46,7 @@ function App() {
           ))
         }
       </div>
-      
+
       <ul className="pagination">
         <li>1</li>
         <li className="active">2</li>
