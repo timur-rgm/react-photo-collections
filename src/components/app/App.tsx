@@ -7,12 +7,17 @@ function App() {
   const [collections, setCollections] = useState<Collections>([]);
   const [searchInputValue, setSearchInputValue] = useState<string>('');
   const [activeCategoryId, setActiveCategoryId] = useState<number>(0);
+  const [isLoading, setLoading] = useState<boolean>(true);
+
 
   useEffect(() => {
+    setLoading(true);
+
     fetch(`https://6353e24dccce2f8c02fe8dcd.mockapi.io/phot-collections?${activeCategoryId ? `category=${activeCategoryId}` : ''}`)
       .then((response) => response.json())
       .then((collections) => setCollections(collections))
-      .catch((error) => console.warn(error));
+      .catch((error) => console.warn(error))
+      .finally(() => setLoading(false));
   }, [activeCategoryId]);
 
   return (
@@ -44,17 +49,20 @@ function App() {
 
       <div className="content">
         {
-          collections
-            .filter((collection) => {
-              return collection.name.toLowerCase().includes(searchInputValue.toLowerCase());
-            })
-            .map((collection, index) => (
-              <Collection
-                name={collection.name}
-                images={collection.photos}
-                key={index}
-              />
-            ))
+          isLoading
+          ? <h2>Идет загрузка...</h2>
+
+          : collections
+              .filter((collection) => {
+                return collection.name.toLowerCase().includes(searchInputValue.toLowerCase());
+              })
+              .map((collection, index) => (
+                <Collection
+                  name={collection.name}
+                  images={collection.photos}
+                  key={index}
+                />
+              ))
         }
       </div>
 
