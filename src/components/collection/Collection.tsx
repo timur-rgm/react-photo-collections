@@ -1,4 +1,9 @@
-function Collection({ name, images }) {
+type CollectionPropsType = {
+  name: string,
+  images: string[],
+}
+
+function Collection({name, images}: CollectionPropsType) {
   return (
     <div className="collection">
       <img className="collection__big" src={images[0]} alt="Item" />
