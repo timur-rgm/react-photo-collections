@@ -13,8 +13,6 @@ function App() {
       .catch((error) => console.warn(error));
   }, [])
 
-  console.log(searchInputValue)
-
   return (
     <div className="App">
       <h1>Моя коллекция фотографий</h1>
@@ -38,12 +36,16 @@ function App() {
 
       <div className="content">
         {
-          collections.map((collection) => (
-            <Collection
-              name={collection.name}
-              images={collection.photos}
-            />
-          ))
+          collections
+            .filter((collection) => {
+              return collection.name.toLowerCase().includes(searchInputValue.toLowerCase());
+            })
+            .map((collection) => (
+              <Collection
+                name={collection.name}
+                images={collection.photos}
+              />
+            ))
         }
       </div>
 
