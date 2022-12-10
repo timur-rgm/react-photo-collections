@@ -2,7 +2,7 @@
 
 Коллекция фотографий с фильтрацией и пагинацией.
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/5337091a-fa43-4041-9c74-c5fb2e783fbb/deploy-status)](https://spa-six-cities.netlify.app/)
+Демонстрация - [![Netlify Status](https://api.netlify.com/api/v1/badges/2d1a2d10-ab27-4623-b2dc-510089a5818d/deploy-status)](https://app.netlify.com/sites/timur-react-photo-collections/deploys)
 
 ## Стек технологий
 
